@@ -4206,6 +4206,7 @@ PATH=$(foreach p,$(INTERNAL_USERIMAGES_BINARY_PATHS),$(p):)$$PATH MKBOOTIMG=$(MK
    --block \
    --extracted_input_target_files $(patsubst %.zip,%,$(BUILT_TARGET_FILES_PACKAGE)) \
    -p $(HOST_OUT) \
+   --backup=$(backuptool) \
    $(if $(OEM_OTA_CONFIG), -o $(OEM_OTA_CONFIG)) \
    $(2) \
    $(BUILT_TARGET_FILES_PACKAGE) $(1)
@@ -4227,6 +4228,16 @@ ifeq ($(AB_OTA_UPDATER),true)
 $(INTERNAL_OTA_PACKAGE_TARGET): $(BRILLO_UPDATE_PAYLOAD)
 else
 $(INTERNAL_OTA_PACKAGE_TARGET): $(BROTLI)
+endif
+
+ifeq ($(WITH_GMS),true)
+    $(INTERNAL_OTA_PACKAGE_TARGET): backuptool := false
+else
+ifneq ($(AOSAP_BUILD),)
+    $(INTERNAL_OTA_PACKAGE_TARGET): backuptool := true
+else
+    $(INTERNAL_OTA_PACKAGE_TARGET): backuptool := false
+endif
 endif
 
 $(INTERNAL_OTA_PACKAGE_TARGET): .KATI_IMPLICIT_OUTPUTS := $(INTERNAL_OTA_METADATA)
