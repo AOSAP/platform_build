@@ -160,6 +160,9 @@ _product_var_list := \
     PRODUCT_COMPATIBLE_PROPERTY_OVERRIDE \
     PRODUCT_ACTIONABLE_COMPATIBLE_PROPERTY_DISABLE \
     PRODUCT_USE_LOGICAL_PARTITIONS \
+    PRODUCT_USE_DYNAMIC_PARTITION_SIZE \
+    PRODUCT_BUILD_SUPER_PARTITION \
+    PRODUCT_USE_FASTBOOTD \
 
 define dump-product
 $(info ==== $(1) ====)\
@@ -323,6 +326,14 @@ _product_stash_var_list += \
 	WITH_DEXPREOPT \
 	WITH_DEXPREOPT_BOOT_IMG_AND_SYSTEM_SERVER_ONLY
 
+# Logical partitions related variables.
+_product_stash_var_list += \
+	BOARD_SYSTEMIMAGE_PARTITION_RESERVED_SIZE \
+	BOARD_VENDORIMAGE_PARTITION_RESERVED_SIZE \
+	BOARD_PRODUCTIMAGE_PARTITION_RESERVED_SIZE \
+	BOARD_SUPER_PARTITION_SIZE \
+	BOARD_SUPER_PARTITION_PARTITION_LIST \
+
 #
 # Mark the variables in _product_stash_var_list as readonly
 #
@@ -358,3 +369,4 @@ $(eval _c := $(subst $(space),$(_PSMC_SP_PLACE_HOLDER),$(strip $(2))))\
 $(eval PRODUCT_SANITIZER_MODULE_CONFIGS += \
   $(foreach m,$(1),$(m)=$(_c)))
 endef
+
