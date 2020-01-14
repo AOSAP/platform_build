@@ -1782,4 +1782,4 @@ fi
 
 export ANDROID_BUILD_TOP=$(gettop)
 
-. $ANDROID_BUILD_TOP/vendor/extras/build/envsetup.sh
+./vendor/extras/build/tools/changelog.sh && . $ANDROID_BUILD_TOP/vendor/extras/build/envsetup.sh
